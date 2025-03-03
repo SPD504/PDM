@@ -2,19 +2,17 @@ let startContext, samples, button1, button2, button3, button4, delTimeSlider, fe
 let rev, dist, del;
 
 function preload() {
-  // We'll initialize the audio chain in setup instead
+
 }
 
 function setup() {
   createCanvas(400, 400);
   
-  // Initialize Tone.js effects after canvas creation
   rev = new Tone.Reverb(0.5).toDestination();
   dist = new Tone.Distortion(2).connect(rev);
-  del = new Tone.FeedbackDelay(0, 0).connect(dist); // Note: lowercase 'b' in FeedbackDelay
+  del = new Tone.FeedbackDelay(0, 0).connect(dist); 
   del.wet.value = 0.5;
   
-  // Initialize samples after effects chain is created
   samples = new Tone.Players({
     pop: "media/pop.mp3",
     boom: "media/boom.mp3",
@@ -24,7 +22,7 @@ function setup() {
 
   let startContext = createButton("Start Audio Context");
   startContext.position(0, 0);
-  startContext.mousePressed(startAudioContext); // Note: lowercase 'p' in mousePressed
+  startContext.mousePressed(startAudioContext); 
   
   button1 = createButton("Play Pop");
   button1.position(10, 30);
@@ -44,9 +42,9 @@ function setup() {
   delTimeSlider.position(20, 100);
   delTimeSlider.input(() => {del.delayTime.value = delTimeSlider.value(); });
   
-  feedbackSlider = createSlider(0, 0.99, 0, 0.01); // Note: lowercase 'b' in feedbackSlider
+  feedbackSlider = createSlider(0, 0.99, 0, 0.01); 
   feedbackSlider.position(200, 100);
-  feedbackSlider.input(() => {del.feedback.value = feedbackSlider.value(); }); // Note: lowercase 'b' in feedbackSlider
+  feedbackSlider.input(() => {del.feedback.value = feedbackSlider.value(); }); 
   
   distSlider = createSlider(0, 10, 0, 0.01);
   distSlider.position(10, 200);
@@ -63,14 +61,14 @@ function draw() {
   fill(0);
 
   text("Delay Time: " + delTimeSlider.value(), 15, 90);
-  text("Feedback Amount: " + feedbackSlider.value(), 205, 90); // Note: lowercase 'b' in feedbackSlider
-  text("Distortion Amount: " + distSlider.value(), 15, 190); // Fixed typo in "Distortion"
+  text("Feedback Amount: " + feedbackSlider.value(), 205, 90); 
+  text("Distortion Amount: " + distSlider.value(), 15, 190); 
   text("Reverb Wet Amount: " + wetSlider.value(), 205, 190); 
 }
 
 function startAudioContext() {
-  if (Tone.context.state !== "running") { // Note: capital 'T' in Tone
-    Tone.start(); // Note: capital 'T' in Tone
+  if (Tone.context.state !== "running") {
+    Tone.start(); 
     console.log("Audio Context Started");
   } else {
     console.log("Audio Context is already running");
