@@ -26,14 +26,33 @@ function preload() {
 function setupSound() {
   synth = new Tone.Synth().toDestination();
   squishSound = new Tone.MembraneSynth().toDestination();
+  critterSynth = new Tone.Synth({
+    oscillator: { type: "square" },
+    envelope: { attacl: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 }
+  }).toDestination();
+
   missSound = new Tone.NoiseSynth({
     noise: { type: "white" },
-    envelope: { attack: 0.005, decay: 0.1, sustain: 0 }
+    envelope: { attack: 0.05, decay: 0.1, sustain: 0 }
   }).toDestination();
   
   backgroundLoop = new Tone.Loop((time) => {
     synth.triggerAttackRelease("C4", "8n", time);
   }, "1m");
+
+  startCritterNoiseLoop();
+}
+
+function startCritterNoiseLoop() {
+  function playNoise() {
+    let notes = ["C6", "E6", "G6", "B6", "D7"];
+    let randomNote = random(notes);
+    critterSynth.triggerAttackRelease(randomNote, "16n");
+
+    setTimeout(playNoise, random(1500, 5000));
+  }
+
+  playNoise();
 }
 
 class Bug {
